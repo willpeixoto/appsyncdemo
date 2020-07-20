@@ -16,9 +16,12 @@ custom:
   account: ${file(./env/env.${self:provider.stage}.yml):account.id}
   dynamo: ${file(./env/env.${self:provider.stage}.yml):tables}
   dynamodbStackName: ${self:custom.base}-dynamodb
-
-
-
+  
+  additionalStacks:    
+    dynamoDBResources:
+      Deploy: Before
+      StackName: ${self:custom.dynamodbStackName}
+      Resources: ${file(./resources/dynamodb.yml)}
 
 provider:
   name: aws

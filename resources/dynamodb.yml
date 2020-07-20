@@ -1,7 +1,7 @@
-NoteTable:
+EventsTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
-      TableName: ${self:custom.dynamo.tebles.events}
+      TableName: ${self:custom.dynamo.events}
       KeySchema:
         -
           AttributeName: id
@@ -11,39 +11,4 @@ NoteTable:
           AttributeName: id
           AttributeType: S
       BillingMode: PAY_PER_REQUEST
-  
-#   AppSyncDynamoDBServiceRole:
-#     Type: "AWS::IAM::Role"
-#     Properties:
-#       RoleName: ${self:custom.role.dynamodb.name}
-#       AssumeRolePolicyDocument:
-#         Version: "2012-10-17"
-#         Statement:
-#           -
-#             Effect: "Allow"
-#             Principal:
-#               Service:
-#                 - "appsync.amazonaws.com"
-#             Action:
-#               - "sts:AssumeRole"
-#       Policies:
-#         -
-#           PolicyName: ${self:custom.role.dynamodb.name}-Policy
-#           PolicyDocument:
-#             Version: "2012-10-17"
-#             Statement:
-#               -
-#                 Effect: "Allow"
-#                 Action:
-#                   - "dynamodb:Query"
-#                   - "dynamodb:BatchWriteItem"
-#                   - "dynamodb:GetItem"
-#                   - "dynamodb:DeleteItem"
-#                   - "dynamodb:PutItem"
-#                   - "dynamodb:Scan"
-#                   - "dynamodb:UpdateItem"
-#                   - "dynamodb:BatchGetItem"
-#                 Resource:
-#                   - "arn:aws:dynamodb:${self:provider.region}:${self:custom.account.id}:table/${self:custom.table.name}"
-#                   - "arn:aws:dynamodb:${self:provider.region}:${self:custom.account.id}:table/${self:custom.db.table.note.name}/*"
   
