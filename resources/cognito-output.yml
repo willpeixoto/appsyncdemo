@@ -1,0 +1,15 @@
+UserPoolId:
+  Value:
+    Ref: CognitoUserPool
+  Export:
+    Name: ${self:custom.default}-UserPoolId
+UserPoolClientId:
+  Value:
+    Ref: CognitoUserPoolClient
+  Export:
+    Name: ${self:custom.default}-UserPoolClientId
+IdentityPoolId:
+  Value:
+    Ref: CognitoIdentityPool
+  Export:
+    Name: ${self:custom.default}-IdentityPoolId

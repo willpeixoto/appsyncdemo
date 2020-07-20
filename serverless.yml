@@ -17,6 +17,12 @@ custom:
   dynamo: ${file(./env/env.${self:provider.stage}.yml):tables}
   dynamodbStackName: ${self:custom.default}-dynamodb
   cognitoStackName: ${self:custom.default}-cognito
+
+  role:
+    cognito:
+      auth:
+        name: ${self:custom.default}-auth-CognitoRole
+
   
   additionalStacks:    
     dynamodbResourcesStack:
@@ -28,6 +34,7 @@ custom:
       Deploy: Before
       StackName: ${self:custom.cognitoStackName}
       Resources: ${file(./resources/cognito.yml)}
+      Outputs: ${file(./resources/cognito-output.yml)}
 
 provider:
   name: aws
