@@ -12,16 +12,22 @@ custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-  base: ${self:service.name}-${self:provider.stage}
+  default: ${self:service.name}-${self:provider.stage}
   account: ${file(./env/env.${self:provider.stage}.yml):account.id}
   dynamo: ${file(./env/env.${self:provider.stage}.yml):tables}
-  dynamodbStackName: ${self:custom.base}-dynamodb
+  dynamodbStackName: ${self:custom.default}-dynamodb
+  cognitoStackName: ${self:custom.default}-cognito
   
   additionalStacks:    
-    dynamoDBResources:
+    dynamodbResourcesStack:
       Deploy: Before
       StackName: ${self:custom.dynamodbStackName}
       Resources: ${file(./resources/dynamodb.yml)}
+    #because appSync we need to add cognito support for our api, and we need to expose te output
+    cognitoResourcesStack:
+      Deploy: Before
+      StackName: ${self:custom.cognitoStackName}
+      Resources: ${file(./resources/cognito.yml)}
 
 provider:
   name: aws

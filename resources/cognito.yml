@@ -1,0 +1,44 @@
+#Lets create a user poll to use with our application
+CognitoUserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+        # Generate a name based on the stage
+      UserPoolName: ${self:custom.default}-userpool
+        # Set email as an alias
+      UsernameAttributes:
+        - email
+    AutoVerifiedAttributes:
+        - email
+
+      Schema:
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+        - Name: nickname
+          AttributeDataType: String
+          Mutable: true
+          Required: false
+
+CognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      # Generate an app client name based on the stage
+      ClientName: ${self:custom.default}-user-pool-client
+      UserPoolId:
+        Ref: CognitoUserPool
+      ExplicitAuthFlows:
+        - ADMIN_NO_SRP_AUTH
+      GenerateSecret: false
+
+Outputs:
+  UserPoolId:
+    Value:
+      Ref: CognitoUserPool
+    Export:
+      Name: ${self:custom.default}-UserPoolId
+  UserPoolClientId:
+    Value:
+      Ref: CognitoUserPoolClient
+    Export:
+      Name: ${self:custom.default}-UserPoolClientId

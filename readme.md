@@ -3,11 +3,11 @@
 we are going to use serverless-framework who can be found here server
 
 what kind of service we are going to simulate ?
-    Let´s work as a BillPayment simulation ?
+    Let´s work as a BillPayment simulation ?        
         - what we need for our use case ?
                 - sign-up, at the first time you register in our company we are going to create a account at our bank for you,
                     this account will be create just providing a simple form, with FullName, phoneNumber, e-mail addres.
-                        when new users is created, we need to create money for that client, how we have infinity money all our clients receive a bonus to use our service. (cognito + event post creation lambda consumer).
+                        when new users is created, we need to create money for that client, how we have infinity money all our clients receive a bonus to use our service. AppSync + (cognito + event post creation lambda consumer).
                 - login - username + password (cognito).
                 - createmoney - this is for free and no need validate, just create infinite money for you.
 
