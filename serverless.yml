@@ -1,0 +1,42 @@
+service:
+  name: demo-appsync
+# app and org for use with dashboard.serverless.com
+app: demo-appsync
+org: willpeixoto
+
+plugins:
+  - serverless-webpack
+  - serverless-plugin-additional-stacks
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  base: ${self:service.name}-${self:provider.stage}
+  account: ${file(./env/env.${self:provider.stage}.yml):account.id}
+  dynamo: ${file(./env/env.${self:provider.stage}.yml):tables}
+  dynamodbStackName: ${self:custom.base}-dynamodb
+
+
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-west-2
+  timeout: 90
+  stage: ${opt:stage, "dev"}
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          method: get
+          path: hello
+
+# resources: ${file(./resources/resources.yml)}
