@@ -19,10 +19,11 @@ custom:
   cognitoStackName: ${self:custom.default}-cognito
 
   role:
+    arn: arn:aws:iam::${self:custom.account.id}:role
     cognito:
       auth:
-        name: ${self:custom.default}-auth-CognitoRole
-
+        name: ${self:custom.default}-auth-cognitoRole
+        arn: ${self:custom.role.arn}/${self:custom.role.cognito.auth.name}
   
   additionalStacks:    
     dynamodbResourcesStack:
