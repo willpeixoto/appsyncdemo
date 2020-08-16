@@ -7,8 +7,44 @@ EventsTable:
           AttributeName: id
           KeyType: HASH
       AttributeDefinitions:
+      -
+        AttributeName: id
+        AttributeType: S
+      ProvisionedThroughput: 
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+      
+AppSyncDynamoDBServiceRole:
+  Type: "AWS::IAM::Role"
+  Properties:
+    RoleName: ${self:custom.role.dynamodb.name}
+    AssumeRolePolicyDocument:
+      Version: "2012-10-17"
+      Statement:
         -
-          AttributeName: id
-          AttributeType: S
-      BillingMode: PAY_PER_REQUEST
-  
+          Effect: "Allow"
+          Principal:
+            Service:
+              - "appsync.amazonaws.com"
+          Action:
+            - "sts:AssumeRole"
+    Policies:
+      -
+        PolicyName: ${self:custom.role.dynamodb.name}-Policy
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Effect: "Allow"
+              Action:
+                - "dynamodb:Query"
+                - "dynamodb:BatchWriteItem"
+                - "dynamodb:GetItem"
+                - "dynamodb:DeleteItem"
+                - "dynamodb:PutItem"
+                - "dynamodb:Scan"
+                - "dynamodb:UpdateItem"
+                - "dynamodb:BatchGetItem"
+              Resource:
+                - "arn:aws:dynamodb:${self:provider.region}:${self:custom.account}:table/${self:custom.dynamo.events}"
+                - "arn:aws:dynamodb:${self:provider.region}:${self:custom.account}:table/${self:custom.dynamo.events}/*"

@@ -1,0 +1,32 @@
+type Schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  batchGetEvents(id: [String]): [Event]
+  getEvent(id: String!): Event
+}
+
+type Mutation {
+  createEvent(input: CreateEventInput!): Event  
+}
+
+type Event {
+  id: String
+  title: String
+  content: String
+}
+
+input CreateEventInput {
+	id: String
+}
+
+input DeleteEventInput {
+	id: String!
+}
+
+input UpdateEventInput {
+	id: String!
+  title: String
+}
